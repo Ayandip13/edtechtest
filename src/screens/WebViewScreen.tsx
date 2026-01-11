@@ -1,5 +1,5 @@
 import React from "react";
-import { View, StyleSheet, ToastAndroid } from "react-native";
+import { View, StyleSheet } from "react-native";
 import { WebView } from "react-native-webview";
 import { Button, Card } from "react-native-paper";
 import { useNavigation } from "@react-navigation/native";

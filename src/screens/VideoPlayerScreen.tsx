@@ -1,31 +1,25 @@
-import React, { useRef } from "react";
+import React from "react";
 import { View, StyleSheet } from "react-native";
-import { Video, ResizeMode } from "expo-av";
-import { Button } from "react-native-paper";
+import { VideoView, useVideoPlayer } from "expo-video";
+
+const videoUrl =
+  "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4";
 
 export default function VideoPlayerScreen() {
-  const videoRef = useRef<Video>(null);
+  const player = useVideoPlayer(videoUrl, (player) => {
+    player.loop = true;
+    player.play();
+  });
 
   return (
     <View style={styles.container}>
-      <Video
-        ref={videoRef}
+      <VideoView
+        player={player}
         style={styles.video}
-        source={{
-          uri: "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8",
-        }}
-        useNativeControls
-        resizeMode={ResizeMode.CONTAIN}
-        shouldPlay
+        allowsFullscreen
+        allowsPictureInPicture
+        showsPlaybackControls
       />
-
-      <Button
-        mode="outlined"
-        onPress={() => videoRef.current?.presentFullscreenPlayer()}
-        style={styles.fullscreenButton}
-      >
-        Fullscreen
-      </Button>
     </View>
   );
 }
@@ -38,10 +32,7 @@ const styles = StyleSheet.create({
   },
   video: {
     width: "100%",
-    height: 220,
+    height: 300,
     backgroundColor: "black",
-  },
-  fullscreenButton: {
-    marginTop: 16,
   },
 });
