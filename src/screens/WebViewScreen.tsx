@@ -1,5 +1,5 @@
 import React from "react";
-import { View, StyleSheet } from "react-native";
+import { View, StyleSheet, ToastAndroid } from "react-native";
 import { WebView } from "react-native-webview";
 import { Button, Card } from "react-native-paper";
 import { useNavigation } from "@react-navigation/native";
@@ -35,7 +35,6 @@ export default function WebViewScreen() {
         />
       </View>
 
-      {/* Buttons */}
       <Card style={styles.buttonContainer}>
         <Button
           mode="contained"
@@ -79,7 +78,8 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   buttonContainer: {
-    padding: 16,
+    paddingVertical: 35,
+    paddingHorizontal: 16,
   },
   button: {
     marginBottom: 10,
