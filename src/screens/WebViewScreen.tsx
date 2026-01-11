@@ -5,22 +5,46 @@ import { Button, Card } from "react-native-paper";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { RootStackParamList } from "../navigation/RootNavigator";
+import * as Notifications from "expo-notifications";
 
 type NavigationProp = NativeStackNavigationProp<RootStackParamList, "WebView">;
+
+async function scheduleNotification(title: string, body: string) {
+  await Notifications.scheduleNotificationAsync({
+    content: {
+      title,
+      body,
+    },
+    trigger: {
+      seconds: 3,
+    },
+  });
+}
 
 export default function WebViewScreen() {
   const navigation = useNavigation<NavigationProp>();
 
   return (
     <View style={styles.container}>
+      {/* WebView */}
       <View style={styles.webviewContainer}>
-        <WebView source={{ uri: "https://docs.swmansion.com/react-native-reanimated/" }} />
+        <WebView
+          source={{
+            uri: "https://docs.swmansion.com/react-native-reanimated/",
+          }}
+        />
       </View>
 
+      {/* Buttons */}
       <Card style={styles.buttonContainer}>
         <Button
           mode="contained"
-          onPress={() => console.log("Notification 1")}
+          onPress={() =>
+            scheduleNotification(
+              "Hello 👋",
+              "This is notification from Button One"
+            )
+          }
           style={styles.button}
         >
           Trigger Notification 1
@@ -28,7 +52,12 @@ export default function WebViewScreen() {
 
         <Button
           mode="outlined"
-          onPress={() => console.log("Notification 2")}
+          onPress={() =>
+            scheduleNotification(
+              "Hey there 🚀",
+              "This is notification from Button Two"
+            )
+          }
           style={styles.button}
         >
           Trigger Notification 2
