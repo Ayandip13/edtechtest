@@ -12,16 +12,19 @@ const Stack = createNativeStackNavigator<RootStackParamList>();
 
 export default function RootNavigator() {
   return (
-    <Stack.Navigator initialRouteName="WebView">
+    <Stack.Navigator
+      initialRouteName="WebView"
+      // screenOptions={{ headerSearchBarOptions: { placeholder: "Search" } }}
+    >
       <Stack.Screen
         name="WebView"
         component={WebViewScreen}
-        options={{ title: "Web View" }}
+        options={{ title: "Web View", headerTitleAlign: "center" }}
       />
       <Stack.Screen
         name="VideoPlayer"
         component={VideoPlayerScreen}
-        options={{ title: "Video Player" }}
+        options={{ title: "Video Player", headerTitleAlign: "center" }}
       />
     </Stack.Navigator>
   );

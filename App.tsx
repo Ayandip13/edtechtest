@@ -32,7 +32,6 @@ export default function App() {
     })();
   }, []);
 
-  // 🔔 BONUS 2: notification tap → Video Player
   useEffect(() => {
     const subscription = Notifications.addNotificationResponseReceivedListener(
       (response) => {

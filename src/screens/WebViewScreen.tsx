@@ -1,7 +1,12 @@
-import React from "react";
+import React, { useState } from "react";
 import { View, StyleSheet } from "react-native";
 import { WebView } from "react-native-webview";
-import { Button, Card } from "react-native-paper";
+import {
+  ActivityIndicator,
+  Button,
+  Card,
+  ProgressBar,
+} from "react-native-paper";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { RootStackParamList } from "../navigation/RootNavigator";
@@ -43,20 +48,28 @@ async function scheduleNotificationToMoveVideoScreen(
 
 export default function WebViewScreen() {
   const navigation = useNavigation<NavigationProp>();
+  const [loading, setLoading] = useState(true);
 
   return (
     <View style={styles.container}>
       <View style={styles.webviewContainer}>
+        {loading && (
+          <View style={styles.loader}>
+            <ActivityIndicator size="small" color="#3b00a8" />
+          </View>
+        )}
         <WebView
           source={{
             uri: "https://docs.swmansion.com/react-native-reanimated/",
           }}
-          onLoadEnd={() =>
+          onLoadStart={() => setLoading(true)}
+          onLoadEnd={() => {
+            setLoading(false);
             scheduleNotificationToMoveVideoScreen(
               "WebView Content Loaded 🌐",
               "The WebView content has finished loading, you can tap to open the video player"
-            )
-          }
+            );
+          }}
         />
       </View>
 
@@ -101,6 +114,13 @@ const styles = StyleSheet.create({
   },
   webviewContainer: {
     flex: 1,
+  },
+  loader: {
+    ...StyleSheet.absoluteFillObject,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgba(255,255,255,0.7)",
+    zIndex: 10,
   },
   buttonContainer: {
     paddingVertical: 35,
