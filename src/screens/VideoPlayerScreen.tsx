@@ -3,7 +3,7 @@ import { View, StyleSheet } from "react-native";
 import { VideoView, useVideoPlayer } from "expo-video";
 
 const videoUrl =
-  "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4";
+  "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8";
 
 export default function VideoPlayerScreen() {
   const player = useVideoPlayer(videoUrl, (player) => {

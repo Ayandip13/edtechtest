@@ -16,7 +16,8 @@ async function scheduleNotification(title: string, body: string) {
       body,
     },
     trigger: {
-      seconds: 3,
+      seconds: 5,
+      channelId: "default",
     },
   });
 }
@@ -26,7 +27,6 @@ export default function WebViewScreen() {
 
   return (
     <View style={styles.container}>
-      {/* WebView */}
       <View style={styles.webviewContainer}>
         <WebView
           source={{
