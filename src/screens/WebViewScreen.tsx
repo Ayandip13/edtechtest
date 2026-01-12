@@ -16,7 +16,26 @@ async function scheduleNotification(title: string, body: string) {
       body,
     },
     trigger: {
-      seconds: 5,
+      seconds: 3,
+      channelId: "default",
+    },
+  });
+}
+
+async function scheduleNotificationToMoveVideoScreen(
+  title: string,
+  body: string
+) {
+  await Notifications.scheduleNotificationAsync({
+    content: {
+      title,
+      body,
+      data: {
+        navigateTo: "VideoPlayer",
+      },
+    },
+    trigger: {
+      seconds: 3,
       channelId: "default",
     },
   });
@@ -32,6 +51,12 @@ export default function WebViewScreen() {
           source={{
             uri: "https://docs.swmansion.com/react-native-reanimated/",
           }}
+          onLoadEnd={() =>
+            scheduleNotificationToMoveVideoScreen(
+              "WebView Content Loaded 🌐",
+              "The WebView content has finished loading, you can tap to open the video player"
+            )
+          }
         />
       </View>
 

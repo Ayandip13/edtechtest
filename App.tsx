@@ -4,6 +4,8 @@ import { Provider as PaperProvider } from "react-native-paper";
 import { NavigationContainer } from "@react-navigation/native";
 import RootNavigator from "./src/navigation/RootNavigator";
 import * as Notifications from "expo-notifications";
+import { navigationRef } from "./src/navigation/navigationRef";
+import { useEffect } from "react";
 
 Notifications.setNotificationHandler({
   handleNotification: async () => ({
@@ -14,7 +16,7 @@ Notifications.setNotificationHandler({
 });
 
 export default function App() {
-  React.useEffect(() => {
+  useEffect(() => {
     (async () => {
       const { status } = await Notifications.getPermissionsAsync();
       if (status !== "granted") {
@@ -30,9 +32,28 @@ export default function App() {
     })();
   }, []);
 
+  // 🔔 BONUS 2: notification tap → Video Player
+  useEffect(() => {
+    const subscription = Notifications.addNotificationResponseReceivedListener(
+      (response) => {
+        const data = response.notification.request.content.data;
+
+        if (
+          data &&
+          data.navigateTo === "VideoPlayer" &&
+          navigationRef.isReady()
+        ) {
+          navigationRef.navigate("VideoPlayer");
+        }
+      }
+    );
+
+    return () => subscription.remove();
+  }, []);
+
   return (
     <PaperProvider>
-      <NavigationContainer>
+      <NavigationContainer ref={navigationRef}>
         <RootNavigator />
       </NavigationContainer>
     </PaperProvider>
