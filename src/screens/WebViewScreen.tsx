@@ -14,16 +14,18 @@ import * as Notifications from "expo-notifications";
 
 type NavigationProp = NativeStackNavigationProp<RootStackParamList, "WebView">;
 
-async function scheduleNotification(title: string, body: string) {
+async function scheduleNotification(
+  title: string,
+  body: string,
+  seconds: number = 0
+) {
   await Notifications.scheduleNotificationAsync({
     content: {
       title,
       body,
     },
-    trigger: {
-      seconds: 3,
-      channelId: "default",
-    },
+    trigger: seconds > 0 ? { seconds, channelId: "default" } : null,
+    // Passing null or 0 seconds usually triggers immediately depending on OS
   });
 }
 
@@ -56,6 +58,7 @@ export default function WebViewScreen() {
         {loading && (
           <View style={styles.loader}>
             <ActivityIndicator size="small" color="#3b00a8" />
+            {/* <ProgressBar progress={0.5} color="#3b00a8" /> */}
           </View>
         )}
         <WebView
@@ -79,12 +82,13 @@ export default function WebViewScreen() {
           onPress={() =>
             scheduleNotification(
               "Hello 👋",
-              "This is notification from Button One"
+              "This is notification from Button One",
+              0
             )
           }
           style={styles.button}
         >
-          Trigger Notification 1
+          Notification 1
         </Button>
 
         <Button
@@ -92,12 +96,13 @@ export default function WebViewScreen() {
           onPress={() =>
             scheduleNotification(
               "Hey there 🚀",
-              "This is notification from Button Two"
+              "This is notification from Button Two",
+              5
             )
           }
           style={styles.button}
         >
-          Trigger Notification 2
+          Notification 2 (5 seconds)
         </Button>
 
         <Button mode="text" onPress={() => navigation.navigate("VideoPlayer")}>
